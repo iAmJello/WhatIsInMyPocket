@@ -1,0 +1,27 @@
+dependencies: \
+  /Users/Jake/Documents/School/Image/A3/WhatIsInMyPocket/node_modules/react-native/Libraries/Image/RCTImageEditingManager.m \
+  /Users/Jake/Documents/School/Image/A3/WhatIsInMyPocket/node_modules/react-native/Libraries/Image/RCTImageEditingManager.h \
+  /Users/Jake/Documents/School/Image/A3/WhatIsInMyPocket/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTBridgeModule.h \
+  /Users/Jake/Documents/School/Image/A3/WhatIsInMyPocket/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTDefines.h \
+  /Users/Jake/Documents/School/Image/A3/WhatIsInMyPocket/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTConvert.h \
+  /Users/Jake/Documents/School/Image/A3/WhatIsInMyPocket/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTAnimationType.h \
+  /Users/Jake/Documents/School/Image/A3/WhatIsInMyPocket/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTBorderStyle.h \
+  /Users/Jake/Documents/School/Image/A3/WhatIsInMyPocket/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTLog.h \
+  /Users/Jake/Documents/School/Image/A3/WhatIsInMyPocket/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTAssert.h \
+  /Users/Jake/Documents/School/Image/A3/WhatIsInMyPocket/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTPointerEvents.h \
+  /Users/Jake/Documents/School/Image/A3/WhatIsInMyPocket/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTTextDecorationLineType.h \
+  /Users/Jake/Documents/School/Image/A3/WhatIsInMyPocket/ios/build/Build/Products/Debug-iphonesimulator/include/yoga/Yoga.h \
+  /Users/Jake/Documents/School/Image/A3/WhatIsInMyPocket/ios/build/Build/Products/Debug-iphonesimulator/include/yoga/YGEnums.h \
+  /Users/Jake/Documents/School/Image/A3/WhatIsInMyPocket/ios/build/Build/Products/Debug-iphonesimulator/include/yoga/YGMacros.h \
+  /Users/Jake/Documents/School/Image/A3/WhatIsInMyPocket/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTUtils.h \
+  /Users/Jake/Documents/School/Image/A3/WhatIsInMyPocket/node_modules/react-native/Libraries/Image/RCTImageLoader.h \
+  /Users/Jake/Documents/School/Image/A3/WhatIsInMyPocket/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTBridge.h \
+  /Users/Jake/Documents/School/Image/A3/WhatIsInMyPocket/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTBridgeDelegate.h \
+  /Users/Jake/Documents/School/Image/A3/WhatIsInMyPocket/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTJavaScriptLoader.h \
+  /Users/Jake/Documents/School/Image/A3/WhatIsInMyPocket/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTFrameUpdate.h \
+  /Users/Jake/Documents/School/Image/A3/WhatIsInMyPocket/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTInvalidating.h \
+  /Users/Jake/Documents/School/Image/A3/WhatIsInMyPocket/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTResizeMode.h \
+  /Users/Jake/Documents/School/Image/A3/WhatIsInMyPocket/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTURLRequestHandler.h \
+  /Users/Jake/Documents/School/Image/A3/WhatIsInMyPocket/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTURLRequestDelegate.h \
+  /Users/Jake/Documents/School/Image/A3/WhatIsInMyPocket/node_modules/react-native/Libraries/Image/RCTImageStoreManager.h \
+  /Users/Jake/Documents/School/Image/A3/WhatIsInMyPocket/node_modules/react-native/Libraries/Image/RCTImageUtils.h
