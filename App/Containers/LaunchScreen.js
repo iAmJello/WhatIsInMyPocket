@@ -1,8 +1,10 @@
 import React from 'react'
 import { ScrollView, Text, Image, View } from 'react-native'
+import RoundedButton from '../Components/RoundedButton'
 import PocketButton from '../../WhatIsInMyPocket/Screens/PocketButton.js'
 
 import { Images } from '../Themes'
+import { Actions as NavigationActions } from 'react-native-router-flux'
 
 // Styles
 import styles from './Styles/LaunchScreenStyles'
@@ -25,7 +27,7 @@ export default class LaunchScreen extends React.Component {
             </Text>
           </View>
 
-          <PocketButton />
+          <RoundedButton text="Open The App" onPress={NavigationActions.presentationScreen} />
         </ScrollView>
       </View>
     )

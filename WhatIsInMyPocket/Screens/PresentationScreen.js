@@ -19,32 +19,7 @@ var options = {
 export default class PresentationScreen extends React.Component {
     
 
-/**
- * The first arg is the options object for customization (it can also be null or omitted for default options),
- * The second arg is the callback which sends object: response (more info below in README)
- */
-  selectImage = () => {
-    ImagePicker.showImagePicker(options, (response) => {
 
-
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      }
-      else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      }
-      else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
-      }
-      else {
-        let source = { uri: response.uri };
-
-        this.setState({
-          avatarSource: source
-        });
-      }
-    });
-  }
 
 
     _onPressButtonGET = () => {
@@ -101,10 +76,12 @@ export default class PresentationScreen extends React.Component {
     super(props)
     this.state = {
       images: [],
-      isCameraLoaded: false
+      isCameraLoaded: false,
+      avatarSource: null
     };
   }
 
+  //Pretty sure we do not need this. Unless we plan on displaying the previous 5 ourselves
   componentWillMount() {
     CameraRoll.getPhotos({first: 5}).then(
       (data) =>{
@@ -116,7 +93,7 @@ export default class PresentationScreen extends React.Component {
         })
       },
       (error) => {
-        console.warn(error);
+        console.log(error);
       }
     );
   }
@@ -134,6 +111,39 @@ export default class PresentationScreen extends React.Component {
     console.log(err);
   }
 
+  /**
+ * The first arg is the options object for customization (it can also be null or omitted for default options),
+ * The second arg is the callback which sends object: response (more info below in README)
+ */
+  selectImage() {
+    ImagePicker.showImagePicker(options, (response) => {
+
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      }
+      else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      }
+      else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      }
+      else {
+        let source = { uri: response.uri };
+
+        this.setState({
+          avatarSource: source
+        });
+      }
+    });
+  }
+
+  uploadImage() {
+    Alert.alert(
+      'We cant upload yet',
+      "Be patient",
+    )
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -141,20 +151,13 @@ export default class PresentationScreen extends React.Component {
           
         <Image source={this.state.avatarSource} style={styles.image} />
           
-          <RoundedButton onPress={this.selectImage}>
-            Select Image
-          </RoundedButton>
+        <RoundedButton text="Select Image" onPress={this.selectImage.bind(this)} />
 
-          <RoundedButton onPress = {() => Alert.alert(
-            'Alert Title',
-            "Test Alert Message",
-          )}>
-            Upload Image
-          </RoundedButton>
-          
-          <TouchableHighlight onPress={this._onPressButtonPost} style={styles.button}>
-              <Text>POST</Text>
-          </TouchableHighlight>
+        <RoundedButton text="Upload Image" onPress = {this.uploadImage.bind(this)} />
+        
+        <TouchableHighlight onPress={this._onPressButtonPost} style={styles.button}>
+            <Text>POST</Text>
+        </TouchableHighlight>
 
 
       </View>
@@ -175,8 +178,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   image: {
-    width: 355,
-    height: 400,
+    width:400,
+    height:200,
     margin: 10,
   },
 });
