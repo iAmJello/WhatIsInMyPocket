@@ -1,6 +1,6 @@
 import React from 'react'
 import { ScrollView, Text, Image, View } from 'react-native'
-import DevscreensButton from '../../ignite/DevScreens/DevscreensButton.js'
+import PocketButton from '../../WhatIsInMyPocket/Screens/PocketButton.js'
 
 import { Images } from '../Themes'
 
@@ -25,7 +25,7 @@ export default class LaunchScreen extends React.Component {
             </Text>
           </View>
 
-          <DevscreensButton />
+          <PocketButton />
         </ScrollView>
       </View>
     )

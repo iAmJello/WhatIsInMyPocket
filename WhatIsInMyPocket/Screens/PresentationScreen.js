@@ -1,5 +1,5 @@
 import React from 'react'
-import {Text, View, ScrollView, Image, CameraRoll, StyleSheet, AppRegistry, Alert} from  'react-native'
+import {Text, View, ScrollView, Image, CameraRoll, StyleSheet, AppRegistry, Alert, TouchableHighlight, AlertIOS} from  'react-native'
 import RoundedButton from '../../App/Components/RoundedButton'
 
 
@@ -23,28 +23,77 @@ export default class PresentationScreen extends React.Component {
  * The first arg is the options object for customization (it can also be null or omitted for default options),
  * The second arg is the callback which sends object: response (more info below in README)
  */
-selectImage = () => {
-  ImagePicker.showImagePicker(options, (response) => {
+  selectImage = () => {
+    ImagePicker.showImagePicker(options, (response) => {
 
 
-    if (response.didCancel) {
-      console.log('User cancelled image picker');
-    }
-    else if (response.error) {
-      console.log('ImagePicker Error: ', response.error);
-    }
-    else if (response.customButton) {
-      console.log('User tapped custom button: ', response.customButton);
-    }
-    else {
-      let source = { uri: response.uri };
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      }
+      else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      }
+      else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      }
+      else {
+        let source = { uri: response.uri };
 
-      this.setState({
-        avatarSource: source
-      });
+        this.setState({
+          avatarSource: source
+        });
+      }
+    });
+  }
+
+
+    _onPressButtonGET = () => {
+       
+//https://138.197.149.10/urload.php
+//
+
+        fetch("http://demo2684545.mockable.io/test", {method: "GET"})
+        .then((response) => response.json())
+        .then((responseData) => {
+            AlertIOS.alert(
+                "GET Response",
+                "Search Query -> " + JSON.stringify(responseData)
+            )
+        })
+        .done();
     }
-  });
-}
+
+  _onPressButtonPost = () =>{
+
+    let photo = {
+      uri:  this.state.avatarSource,
+      type: 'image/jpeg',
+      name: 'photo.jpg',
+    };
+
+    let data = new FormData();
+    data.append('authToken', 'wb7J1G536cI2yvm');
+    data.append('photo', photo);
+    data.append('title', 'A beautiful photo!');
+
+    
+    fetch("https://138.197.149.10/urload.php", {
+            method: 'POST',  
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'multipart/form-data',
+              },
+              body: data
+          })
+    .then((response) => response.json())
+    .then((responseData) => {
+        AlertIOS.alert(
+            "POST Response",
+            "Upload Test -> " + JSON.stringify(responseData)
+          )
+    })
+    .done();
+  }
 
 
 
@@ -103,6 +152,10 @@ selectImage = () => {
             Upload Image
           </RoundedButton>
           
+          <TouchableHighlight onPress={this._onPressButtonPost} style={styles.button}>
+              <Text>POST</Text>
+          </TouchableHighlight>
+
 
       </View>
     )
