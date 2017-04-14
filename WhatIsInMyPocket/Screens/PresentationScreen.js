@@ -15,7 +15,7 @@ var options = {
 };
 
 const db = create({
-  baseURL: 'https://138.197.149.10',
+  baseURL: 'http://138.197.149.10',
   headers: {'Accept': 'application/json'}
 })
 
@@ -26,7 +26,8 @@ export default class PresentationScreen extends React.Component {
     this.state = {
       images: [],
       isCameraLoaded: false,
-      avatarSource: null
+      avatarSource: null,
+      isDisabled: true
     };
   }
 
@@ -80,7 +81,8 @@ export default class PresentationScreen extends React.Component {
         let source = { uri: response.uri };
 
         this.setState({
-          avatarSource: source
+          avatarSource: source,
+          isDisabled: false
         });
       }
     });
@@ -125,9 +127,9 @@ export default class PresentationScreen extends React.Component {
     })
     .catch((error) => console.log("ERROR",error))
 
-    
+
     // fetch("https://138.197.149.10/urload.php", {
-    //         method: 'POST',  
+    //         method: 'POST',
     //         headers: {
     //           'Accept': 'application/json',
     //           'Content-Type': 'multipart/form-data',
@@ -142,20 +144,20 @@ export default class PresentationScreen extends React.Component {
     //       )
     // })
     // .done();
-    
+
   }
 
   render() {
     return (
       <View style={styles.container}>
 
-          
+
         <Image source={this.state.avatarSource} style={styles.image} />
-          
+
         <RoundedButton text="Select Image" onPress={this.selectImage.bind(this)} />
 
-        <RoundedButton text="Upload Image" onPress = {this.onPressButtonGet.bind(this)} />
-        
+        <RoundedButton text="Upload Image" onPress = {this.onPressButtonGet.bind(this)} isDisabled={this.state.isDisabled} />
+
         <TouchableHighlight onPress={this.onPressButtonPost.bind(this)} style={styles.button}>
             <Text>POST</Text>
         </TouchableHighlight>
