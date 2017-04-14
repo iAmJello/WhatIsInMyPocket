@@ -10,6 +10,14 @@ export default StyleSheet.create({
     backgroundColor: Colors.fire,
     justifyContent: 'center'
   },
+  buttonDisabled: {
+    height: 45,
+    borderRadius: 5,
+    marginHorizontal: Metrics.section,
+    marginVertical: Metrics.baseMargin,
+    backgroundColor: Colors.charcoal,
+    justifyContent: 'center'
+  },
   buttonText: {
     color: Colors.snow,
     textAlign: 'center',

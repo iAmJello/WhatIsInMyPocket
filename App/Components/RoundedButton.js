@@ -16,6 +16,7 @@ export default class RoundedButton extends React.Component {
     onPress: PropTypes.func,
     text: PropTypes.string,
     children: PropTypes.string,
+    isDisabled: PropTypes.bool,
     navigator: PropTypes.object
   }
 
@@ -25,8 +26,9 @@ export default class RoundedButton extends React.Component {
   }
 
   render () {
+    var buttonStyle = (this.props.isDisabled)? styles.buttonDisabled : styles.button;
     return (
-      <TouchableOpacity style={styles.button} onPress={this.props.onPress}>
+      <TouchableOpacity style={buttonStyle} onPress={this.props.onPress} disabled = {this.props.isDisabled} >
         <Text style={styles.buttonText}>{this.getText()}</Text>
       </TouchableOpacity>
     )
