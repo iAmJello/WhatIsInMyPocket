@@ -1,9 +1,8 @@
 import React from 'react'
 import {Text, View, ScrollView, Image, CameraRoll, StyleSheet, AppRegistry, Alert, TouchableHighlight, AlertIOS} from  'react-native'
 import RoundedButton from '../../App/Components/RoundedButton'
-
-
-var ImagePicker = require('react-native-image-picker');
+import {create} from 'apisauce'
+import ImagePicker from 'react-native-image-picker'
 
 // More info on all the options is below in the README...just some common use cases shown here
 var options = {
@@ -15,62 +14,12 @@ var options = {
   }
 };
 
+const db = create({
+  baseURL: 'https://138.197.149.10',
+  headers: {'Accept': 'application/json'}
+})
 
 export default class PresentationScreen extends React.Component {
-    
-
-
-
-
-    _onPressButtonGET = () => {
-       
-//https://138.197.149.10/urload.php
-//
-
-        fetch("http://demo2684545.mockable.io/test", {method: "GET"})
-        .then((response) => response.json())
-        .then((responseData) => {
-            AlertIOS.alert(
-                "GET Response",
-                "Search Query -> " + JSON.stringify(responseData)
-            )
-        })
-        .done();
-    }
-
-  _onPressButtonPost = () =>{
-
-    let photo = {
-      uri:  this.state.avatarSource,
-      type: 'image/jpeg',
-      name: 'photo.jpg',
-    };
-
-    let data = new FormData();
-    data.append('authToken', 'wb7J1G536cI2yvm');
-    data.append('photo', photo);
-    data.append('title', 'A beautiful photo!');
-
-    
-    fetch("https://138.197.149.10/urload.php", {
-            method: 'POST',  
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'multipart/form-data',
-              },
-              body: data
-          })
-    .then((response) => response.json())
-    .then((responseData) => {
-        AlertIOS.alert(
-            "POST Response",
-            "Upload Test -> " + JSON.stringify(responseData)
-          )
-    })
-    .done();
-  }
-
-
 
   constructor(props){
     super(props)
@@ -138,10 +87,62 @@ export default class PresentationScreen extends React.Component {
   }
 
   uploadImage() {
-    Alert.alert(
-      'We cant upload yet',
-      "Be patient",
-    )
+      console.log("error");
+  }
+
+
+  onPressButtonGet() {
+      db.get('/test')
+      .then(function (response) {
+          console.log(response);
+      })
+      .catch((error) => console.log("ERROR",error))
+  }
+
+  onPressButtonPost() {
+
+    var that = this;
+
+    db.setHeaders({
+      'Accept': 'application/json',
+      'Content-Type': 'multipart/form-data',
+    })
+
+    var photo = {
+      uri:  this.state.avatarSource.uri,
+      type: 'image/jpeg',
+      name: 'photo.jpg',
+    };
+
+    var data = new FormData();
+    data.append('authToken', 'wb7J1G536cI2yvm');
+    data.append('photo', photo);
+    data.append('title', 'A beautiful photo!');
+
+    db.post('/urload.php', data)
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch((error) => console.log("ERROR",error))
+
+    
+    // fetch("https://138.197.149.10/urload.php", {
+    //         method: 'POST',  
+    //         headers: {
+    //           'Accept': 'application/json',
+    //           'Content-Type': 'multipart/form-data',
+    //           },
+    //           body: data
+    //       })
+    // .then((response) => response.json())
+    // .then((responseData) => {
+    //     AlertIOS.alert(
+    //         "POST Response",
+    //         "Upload Test -> " + JSON.stringify(responseData)
+    //       )
+    // })
+    // .done();
+    
   }
 
   render() {
@@ -153,9 +154,9 @@ export default class PresentationScreen extends React.Component {
           
         <RoundedButton text="Select Image" onPress={this.selectImage.bind(this)} />
 
-        <RoundedButton text="Upload Image" onPress = {this.uploadImage.bind(this)} />
+        <RoundedButton text="Upload Image" onPress = {this.onPressButtonGet.bind(this)} />
         
-        <TouchableHighlight onPress={this._onPressButtonPost} style={styles.button}>
+        <TouchableHighlight onPress={this.onPressButtonPost.bind(this)} style={styles.button}>
             <Text>POST</Text>
         </TouchableHighlight>
 
