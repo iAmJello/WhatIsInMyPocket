@@ -123,7 +123,7 @@ export default class PresentationScreen extends React.Component {
 
     db.post('/urload.php', data)
     .then(function (response) {
-      console.log(response);
+      console.log(response.data);
     })
     .catch((error) => console.log("ERROR",error))
 
