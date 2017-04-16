@@ -181,7 +181,7 @@ export default class PresentationScreen extends React.Component {
       avatarSource: null
     });
     db.post('/urload.php', data)
-    .then((response) => {
+    .then(() => {
       var _query = {
         image: photo,
         state: 0,
