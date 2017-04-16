@@ -1,1 +1,4 @@
 node_modules
+ios/build/info.plist
+ios/build/Build/*
+ios/build/ModuleCache/*

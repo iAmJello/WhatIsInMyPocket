@@ -27,8 +27,9 @@ export default class PresentationScreen extends React.Component {
       images: [],
       isCameraLoaded: false,
       avatarSource: null,
-      isDisabled: true
+      queries: []
     };
+    this.id = 0;
   }
 
   //Pretty sure we do not need this. Unless we plan on displaying the previous 5 ourselves
@@ -81,8 +82,7 @@ export default class PresentationScreen extends React.Component {
         let source = { uri: response.uri };
 
         this.setState({
-          avatarSource: source,
-          isDisabled: false
+          avatarSource: source
         });
       }
     });
@@ -100,6 +100,49 @@ export default class PresentationScreen extends React.Component {
       })
       .catch((error) => console.log("ERROR",error))
   }
+
+  replaceItemInList(item, newItem, list) {
+    var newList = list.slice(0, list.indexOf(item));
+    newList.push(newItem);
+    newList = newList.concat(list.slice(list.indexOf(item) + 1));
+    return newList;
+  }
+
+  startPooling(query) {
+    var that = this;
+
+    db.setHeaders({
+      'Accept': 'application/json',
+      'Content-Type': 'multipart/form-data',
+    })
+
+    var data = new FormData();
+    data.append('authToken', 'wb7J1G536cI2yvm');
+    data.append('id', query.item_id);
+    db.get('/polka.php', data)
+      .then((response) => {
+        var _query = {
+          image: query.photo,
+          state: response.data.status,
+          amount: response.data.amount,
+          coins: response.data.coins,
+          item_id: query.item_id,
+          key: query.key
+        };
+        if (response.data.status !== 1) {
+          _query.amount = null;
+          setTimeout(function () {
+            that.startPooling(_query);
+          }, 3000);
+        }
+        that.setState({
+          queries: that.replaceItemInList(query, _query, that.state.queries)
+        });
+
+      })
+      .catch((error) => console.log("ERROR",error))
+  }
+
 
   onPressButtonPost() {
 
@@ -121,9 +164,36 @@ export default class PresentationScreen extends React.Component {
     data.append('photo', photo);
     data.append('title', 'A beautiful photo!');
 
+    var id = this.id;
+    this.id ++;
+    var queries = this.state.queries;
+    var query = {
+      image: photo,
+      state: 0,
+      amount: null,
+      item_id: id,
+      key: id
+    };
+    queries = queries.concat(query);
+
+    that.setState({
+      queries: queries,
+      avatarSource: null
+    });
     db.post('/urload.php', data)
-    .then(function (response) {
-      console.log(response.data);
+    .then(() => {
+      var _query = {
+        image: photo,
+        state: 0,
+        amount: null,
+        item_id: id,
+        key: id
+      };
+      that.setState({
+        queries: this.replaceItemInList(query, _query, that.state.queries)
+      });
+      query = _query;
+      that.startPooling(_query);
     })
     .catch((error) => console.log("ERROR",error))
 
@@ -148,19 +218,23 @@ export default class PresentationScreen extends React.Component {
   }
 
   render() {
+
+    var rows = [];
+    for (var i = 0 ; i < this.state.queries.length ; i ++) {
+      rows.push(<Text key="{this.state.queries[i].key}">id: {this.state.queries[i].item_id} amount:{this.state.queries[i].amount}</Text>);
+    }
+
     return (
       <View style={styles.container}>
 
 
         <Image source={this.state.avatarSource} style={styles.image} />
 
-        <RoundedButton text="Select Image" onPress={this.selectImage.bind(this)} />
+        <RoundedButton text="Select Image" onPress = {this.selectImage.bind(this)} />
 
-        <RoundedButton text="Upload Image" onPress = {this.onPressButtonGet.bind(this)} isDisabled={this.state.isDisabled} />
+        <RoundedButton text="Upload Image" onPress = {this.onPressButtonPost.bind(this)} isDisabled={this.state.avatarSource ? false : true} />
 
-        <TouchableHighlight onPress={this.onPressButtonPost.bind(this)} style={styles.button}>
-            <Text>POST</Text>
-        </TouchableHighlight>
+        {rows}
 
 
       </View>
