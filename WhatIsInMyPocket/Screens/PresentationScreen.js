@@ -1,6 +1,7 @@
 import React from 'react'
 import {Text, View, ScrollView, Image, CameraRoll, StyleSheet, AppRegistry, Alert, TouchableHighlight, AlertIOS} from  'react-native'
 import RoundedButton from '../../App/Components/RoundedButton'
+import ImageCard from '../../App/Components/ImageCard'
 import {create} from 'apisauce'
 import ImagePicker from 'react-native-image-picker'
 
@@ -116,20 +117,22 @@ export default class PresentationScreen extends React.Component {
       'Content-Type': 'multipart/form-data',
     })
 
-    var data = new FormData();
-    data.append('authToken', 'wb7J1G536cI2yvm');
-    data.append('id', query.item_id);
-    db.get('/polka.php', data)
+    var url = '/polka.php?token=' + query.key
+
+    console.log(url)
+
+    db.get(url)
       .then((response) => {
+        console.log(response.data)
         var _query = {
-          image: query.photo,
+          image: query.image,
           state: response.data.status,
           amount: response.data.amount,
           coins: response.data.coins,
           item_id: query.item_id,
           key: query.key
         };
-        if (response.data.status !== 1) {
+        if (response.data.status === 1) {
           _query.amount = null;
           setTimeout(function () {
             that.startPooling(_query);
@@ -181,39 +184,22 @@ export default class PresentationScreen extends React.Component {
       avatarSource: null
     });
     db.post('/urload.php', data)
-    .then(() => {
+    .then(function (response) {
+      console.log(response);
       var _query = {
         image: photo,
-        state: 0,
+        state: response.data.status,
         amount: null,
         item_id: id,
-        key: id
+        key: response.data.token
       };
       that.setState({
-        queries: this.replaceItemInList(query, _query, that.state.queries)
+        queries: that.replaceItemInList(query, _query, that.state.queries)
       });
       query = _query;
-      that.startPooling(_query);
+      that.startPooling(query);
     })
     .catch((error) => console.log("ERROR",error))
-
-
-    // fetch("https://138.197.149.10/urload.php", {
-    //         method: 'POST',
-    //         headers: {
-    //           'Accept': 'application/json',
-    //           'Content-Type': 'multipart/form-data',
-    //           },
-    //           body: data
-    //       })
-    // .then((response) => response.json())
-    // .then((responseData) => {
-    //     AlertIOS.alert(
-    //         "POST Response",
-    //         "Upload Test -> " + JSON.stringify(responseData)
-    //       )
-    // })
-    // .done();
 
   }
 
@@ -221,7 +207,7 @@ export default class PresentationScreen extends React.Component {
 
     var rows = [];
     for (var i = 0 ; i < this.state.queries.length ; i ++) {
-      rows.push(<Text key="{this.state.queries[i].key}">id: {this.state.queries[i].item_id} amount:{this.state.queries[i].amount}</Text>);
+      rows.push(<ImageCard queryData={this.state.queries[i]} key={this.state.queries[i].key}/>);
     }
 
     return (
@@ -235,7 +221,6 @@ export default class PresentationScreen extends React.Component {
         <RoundedButton text="Upload Image" onPress = {this.onPressButtonPost.bind(this)} isDisabled={this.state.avatarSource ? false : true} />
 
         {rows}
-
 
       </View>
     )
