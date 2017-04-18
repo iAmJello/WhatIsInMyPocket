@@ -12,10 +12,6 @@ export default class CardInfo extends React.Component {
     }
   }
 
-  componentWillMount () {
-    
-  }
-
   _onLayout(event) {
     console.log("HERE")
     const containerWidth = event.nativeEvent.layout.width;

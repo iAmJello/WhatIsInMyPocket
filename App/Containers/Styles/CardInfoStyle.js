@@ -9,6 +9,7 @@ export default StyleSheet.create({
     flexWrap: 'wrap',
     flex: 1,
     backgroundColor: Colors.moneyBG,
+    marginTop: 50
   },
   innerContents: {
     flexDirection: 'row'

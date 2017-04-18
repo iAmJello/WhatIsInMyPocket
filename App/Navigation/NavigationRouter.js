@@ -15,10 +15,10 @@ class NavigationRouter extends Component {
   render () {
     return (
       <Router>
-        <Scene key='drawer' component={NavigationDrawer} open={false}>
+        <Scene key='drawer'>
           <Scene key='drawerChildrenWrapper' navigationBarStyle={Styles.navBar} titleStyle={Styles.title} leftButtonIconStyle={Styles.leftButton} rightButtonTextStyle={Styles.rightButton}>
-            <Scene initial key='presentationScreen' component={PresentationScreen} title='Pick a Photo' hideNavBar />
-            <Scene key='cardInfo' component={CardInfo} title='Image Info' hideNavBar />
+            <Scene initial key='presentationScreen' component={PresentationScreen} title="What's in my Pocket" />
+            <Scene key='cardInfo' component={CardInfo} title='Image Info' />
           </Scene>
         </Scene>
       </Router>

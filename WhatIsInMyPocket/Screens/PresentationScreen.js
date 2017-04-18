@@ -213,7 +213,7 @@ export default class PresentationScreen extends React.Component {
 
     var rows = [];
     for (var i = 0 ; i < this.state.queries.length ; i ++) {
-      rows.push(<ImageCard queryData={this.state.queries[i]} onClick={this.cardClicked.bind(this)} key={this.state.queries[i].key}/>);
+      rows.unshift(<ImageCard queryData={this.state.queries[i]} onClick={this.cardClicked.bind(this)} key={this.state.queries[i].key}/>);
     }
 
     var mainPic = this.state.avatarSource
@@ -223,7 +223,7 @@ export default class PresentationScreen extends React.Component {
     }
 
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
 
         <Image source={mainPic} style={styles.image} />
 
@@ -233,7 +233,7 @@ export default class PresentationScreen extends React.Component {
 
         {rows}
 
-      </View>
+      </ScrollView>
     )
   }
 }
@@ -242,6 +242,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#A4BD99',
+    marginTop: 50
   },
   imageGrid: {
     flex: 1,
