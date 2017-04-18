@@ -4,6 +4,7 @@ import RoundedButton from '../../App/Components/RoundedButton'
 import ImageCard from '../../App/Components/ImageCard'
 import {create} from 'apisauce'
 import ImagePicker from 'react-native-image-picker'
+import { Actions as NavigationActions } from 'react-native-router-flux'
 
 // More info on all the options is below in the README...just some common use cases shown here
 var options = {
@@ -203,18 +204,28 @@ export default class PresentationScreen extends React.Component {
 
   }
 
+  cardClicked(event) {
+    console.log(event)
+    NavigationActions.cardInfo(event)
+  }
+
   render() {
 
     var rows = [];
     for (var i = 0 ; i < this.state.queries.length ; i ++) {
-      rows.push(<ImageCard queryData={this.state.queries[i]} key={this.state.queries[i].key}/>);
+      rows.push(<ImageCard queryData={this.state.queries[i]} onClick={this.cardClicked.bind(this)} key={this.state.queries[i].key}/>);
+    }
+
+    var mainPic = this.state.avatarSource
+    console.log(mainPic)
+    if(mainPic === null){
+      mainPic = require('../../App/Images/imgPlaceholder.png')
     }
 
     return (
       <View style={styles.container}>
 
-
-        <Image source={this.state.avatarSource} style={styles.image} />
+        <Image source={mainPic} style={styles.image} />
 
         <RoundedButton text="Select Image" onPress = {this.selectImage.bind(this)} />
 
@@ -230,8 +241,7 @@ export default class PresentationScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#eaf5fb',
-    marginTop: 20
+    backgroundColor: '#A4BD99',
   },
   imageGrid: {
     flex: 1,
@@ -242,7 +252,7 @@ const styles = StyleSheet.create({
   image: {
     width:400,
     height:200,
-    margin: 10,
+    marginTop: 10,
   },
 });
 

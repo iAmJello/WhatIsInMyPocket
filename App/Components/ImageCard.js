@@ -2,7 +2,7 @@ import React from 'react'
 import { Image, View, Text, TouchableOpacity } from 'react-native'
 import styles from './Styles/ImageCardStyle'
 
-export default class CatCard extends React.Component {
+export default class ImageCard extends React.Component {
 
   constructor (props) {
     super(props)
@@ -42,24 +42,37 @@ export default class CatCard extends React.Component {
 
   cardClick () {
     var propsObj = {
-      'catId': this.state.petId,
-      'access': this.state.access
+      image: this.state.image,
+      state: this.state.state,
+      amount: this.state.amount,
+      coins: this.state.coins,
+      item_id: this.state.item_id,
+      image_key: this.state.key
     }
     this.props.onClick(propsObj)
   }
 
   render () {
-    var cardStyle = styles.catCard
-    if (this.state.state !== 0) {
-      cardStyle = styles.sharedCatCard
+    var disVar = true
+    var cardStyle = styles.sharedCatCard
+    if (this.state.state === 0 && (this.state.amount !== 0 && this.state.amount !== null)) {
+      cardStyle = styles.catCard
+      disVar = false
+    }
+
+    var amountVal
+    if(this.state.amount === null){
+      amountVal = "Processing..."
+    } else {
+      amountVal = "Amount: " + this.state.amount
     }
 
     return (
-      <TouchableOpacity onPress={this.cardClick.bind(this)} style={styles.outter}>
+      <TouchableOpacity onPress={this.cardClick.bind(this)} style={styles.outter} disabled={disVar}>
         <View style={cardStyle}>
           <View style={styles.innerContents}>
             <View style={styles.textContents}>
-              <Text style={styles.name}>Amount: {this.state.amount}</Text>
+              <Text style={styles.name}>{amountVal}</Text>
               <Text style={styles.owner}>Id: {this.state.item_id}</Text>
             </View>
             {/* pictures do not yet exist so this may be removed */}
@@ -73,7 +86,7 @@ export default class CatCard extends React.Component {
 
 // Options should be an object with name and value inside of it
 // ex {"name": x, "value": y}
-CatCard.propTypes = {
+ImageCard.propTypes = {
   queryData: React.PropTypes.object.isRequired,
-  onClick: React.PropTypes.func,
+  onClick: React.PropTypes.func.isRequired,
 }
