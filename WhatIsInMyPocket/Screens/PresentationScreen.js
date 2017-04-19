@@ -1,8 +1,10 @@
 import React from 'react'
 import {Text, View, ScrollView, Image, CameraRoll, StyleSheet, AppRegistry, Alert, TouchableHighlight, AlertIOS} from  'react-native'
 import RoundedButton from '../../App/Components/RoundedButton'
+import ImageCard from '../../App/Components/ImageCard'
 import {create} from 'apisauce'
 import ImagePicker from 'react-native-image-picker'
+import { Actions as NavigationActions } from 'react-native-router-flux'
 
 // More info on all the options is below in the README...just some common use cases shown here
 var options = {
@@ -88,19 +90,6 @@ export default class PresentationScreen extends React.Component {
     });
   }
 
-  uploadImage() {
-      console.log("error");
-  }
-
-
-  onPressButtonGet() {
-      db.get('/test')
-      .then(function (response) {
-          console.log(response);
-      })
-      .catch((error) => console.log("ERROR",error))
-  }
-
   replaceItemInList(item, newItem, list) {
     var newList = list.slice(0, list.indexOf(item));
     newList.push(newItem);
@@ -116,20 +105,19 @@ export default class PresentationScreen extends React.Component {
       'Content-Type': 'multipart/form-data',
     })
 
-    var data = new FormData();
-    data.append('authToken', 'wb7J1G536cI2yvm');
-    data.append('id', query.item_id);
-    db.get('/polka.php', data)
+    var url = '/polka.php?token=' + query.key
+
+    db.get(url)
       .then((response) => {
         var _query = {
-          image: query.photo,
+          image: query.image,
           state: response.data.status,
           amount: response.data.amount,
           coins: response.data.coins,
           item_id: query.item_id,
           key: query.key
         };
-        if (response.data.status !== 1) {
+        if (response.data.status === 1) {
           _query.amount = null;
           setTimeout(function () {
             that.startPooling(_query);
@@ -180,55 +168,46 @@ export default class PresentationScreen extends React.Component {
       queries: queries,
       avatarSource: null
     });
+
     db.post('/urload.php', data)
-    .then(() => {
+    .then(function (response) {
       var _query = {
         image: photo,
-        state: 0,
+        state: response.data.status,
         amount: null,
         item_id: id,
-        key: id
+        key: response.data.token
       };
       that.setState({
-        queries: this.replaceItemInList(query, _query, that.state.queries)
+        queries: that.replaceItemInList(query, _query, that.state.queries)
       });
       query = _query;
-      that.startPooling(_query);
+      that.startPooling(query);
     })
     .catch((error) => console.log("ERROR",error))
 
+  }
 
-    // fetch("https://138.197.149.10/urload.php", {
-    //         method: 'POST',
-    //         headers: {
-    //           'Accept': 'application/json',
-    //           'Content-Type': 'multipart/form-data',
-    //           },
-    //           body: data
-    //       })
-    // .then((response) => response.json())
-    // .then((responseData) => {
-    //     AlertIOS.alert(
-    //         "POST Response",
-    //         "Upload Test -> " + JSON.stringify(responseData)
-    //       )
-    // })
-    // .done();
-
+  cardClicked(event) {
+    NavigationActions.cardInfo(event)
   }
 
   render() {
 
     var rows = [];
     for (var i = 0 ; i < this.state.queries.length ; i ++) {
-      rows.push(<Text key="{this.state.queries[i].key}">id: {this.state.queries[i].item_id} amount:{this.state.queries[i].amount}</Text>);
+      rows.unshift(<ImageCard queryData={this.state.queries[i]} onClick={this.cardClicked.bind(this)} key={this.state.queries[i].key}/>);
+    }
+
+    var mainPic = this.state.avatarSource
+    if(mainPic === null){
+      mainPic = require('../../App/Images/imgPlaceholder.png')
     }
 
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
 
-
-        <Image source={this.state.avatarSource} style={styles.image} />
+        <Image source={mainPic} resizeMode={Image.resizeMode.contain} style={styles.image} />
 
         <RoundedButton text="Select Image" onPress = {this.selectImage.bind(this)} />
 
@@ -236,8 +215,7 @@ export default class PresentationScreen extends React.Component {
 
         {rows}
 
-
-      </View>
+      </ScrollView>
     )
   }
 }
@@ -245,8 +223,8 @@ export default class PresentationScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#eaf5fb',
-    marginTop: 20
+    backgroundColor: '#A4BD99',
+    marginTop: 50
   },
   imageGrid: {
     flex: 1,
@@ -255,9 +233,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   image: {
-    width:400,
+    width:360,
     height:200,
-    margin: 10,
+    marginTop: 10,
   },
 });
 
