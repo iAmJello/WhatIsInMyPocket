@@ -27,6 +27,10 @@ export default StyleSheet.create({
     alignItems: 'center',
     marginTop: 10,
   },
+  coinImage: {
+    width: 360,
+    height: 340
+  },
   coinType: {
     color: 'white',
     paddingLeft: 40,

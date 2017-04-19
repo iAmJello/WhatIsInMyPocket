@@ -54,9 +54,9 @@ export default class ImageCard extends React.Component {
 
   render () {
     var disVar = true
-    var cardStyle = styles.sharedCatCard
+    var cardStyle = styles.imagePro
     if (this.state.state === 0 && (this.state.amount !== 0 && this.state.amount !== null)) {
-      cardStyle = styles.catCard
+      cardStyle = styles.imageDone
       disVar = false
     }
 
@@ -72,11 +72,11 @@ export default class ImageCard extends React.Component {
         <View style={cardStyle}>
           <View style={styles.innerContents}>
             <View style={styles.textContents}>
-              <Text style={styles.name}>{amountVal}</Text>
-              <Text style={styles.owner}>Id: {this.state.item_id}</Text>
+              <Text style={styles.amount}>{amountVal}</Text>
+              <Text style={styles.id}>Id: {this.state.item_id}</Text>
             </View>
             {/* pictures do not yet exist so this may be removed */}
-            <Image source={{uri: this.state.image.uri}} style={styles.catPicture} /> 
+            <Image source={{uri: this.state.image.uri}} style={styles.moneyPicture} /> 
           </View>
         </View>
       </TouchableOpacity>

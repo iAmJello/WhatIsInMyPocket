@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, View, Text, TouchableOpacity } from 'react-native'
+import { Image, ScrollView, View, Text, TouchableOpacity } from 'react-native'
 import styles from './Styles/CardInfoStyle'
 
 export default class CardInfo extends React.Component {
@@ -12,28 +12,14 @@ export default class CardInfo extends React.Component {
     }
   }
 
-  _onLayout(event) {
-    console.log("HERE")
-    const containerWidth = event.nativeEvent.layout.width;
-
-    Image.getSize(this.props.image.uri, (width, height) => {
-      this.setState({
-        width: containerWidth / 2,
-        height: (containerWidth * height / width) / 2
-      });
-    });
-  }
 
   render () {
     var cardStyle = styles.infoPage
     var amountVal = 0
-
-    console.log(this.state.height + " " + this.state.width)
-
     return (
-      <View style={cardStyle} onLayout={this._onLayout.bind(this)}>
+      <ScrollView style={cardStyle}>
         <View style={styles.centerImage}>
-          <Image source={this.props.image} style={{width: this.state.width, height: this.state.height}} /> 
+          <Image source={this.props.image} resizeMode={Image.resizeMode.contain} style={styles.coinImage} /> 
         </View>
         <View style={styles.innerContents}>
           <View style={styles.textContents}>
@@ -47,7 +33,7 @@ export default class CardInfo extends React.Component {
             
           </View>
         </View>
-      </View>
+      </ScrollView>
     )
   }
 }

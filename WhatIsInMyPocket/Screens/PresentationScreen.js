@@ -90,19 +90,6 @@ export default class PresentationScreen extends React.Component {
     });
   }
 
-  uploadImage() {
-      console.log("error");
-  }
-
-
-  onPressButtonGet() {
-      db.get('/test')
-      .then(function (response) {
-          console.log(response);
-      })
-      .catch((error) => console.log("ERROR",error))
-  }
-
   replaceItemInList(item, newItem, list) {
     var newList = list.slice(0, list.indexOf(item));
     newList.push(newItem);
@@ -120,11 +107,8 @@ export default class PresentationScreen extends React.Component {
 
     var url = '/polka.php?token=' + query.key
 
-    console.log(url)
-
     db.get(url)
       .then((response) => {
-        console.log(response.data)
         var _query = {
           image: query.image,
           state: response.data.status,
@@ -185,11 +169,8 @@ export default class PresentationScreen extends React.Component {
       avatarSource: null
     });
 
-    console.log("in the upload")
-
     db.post('/urload.php', data)
     .then(function (response) {
-      console.log("here");
       var _query = {
         image: photo,
         state: response.data.status,
@@ -208,7 +189,6 @@ export default class PresentationScreen extends React.Component {
   }
 
   cardClicked(event) {
-    console.log(event)
     NavigationActions.cardInfo(event)
   }
 
@@ -220,7 +200,6 @@ export default class PresentationScreen extends React.Component {
     }
 
     var mainPic = this.state.avatarSource
-    console.log(mainPic)
     if(mainPic === null){
       mainPic = require('../../App/Images/imgPlaceholder.png')
     }
@@ -228,7 +207,7 @@ export default class PresentationScreen extends React.Component {
     return (
       <ScrollView style={styles.container}>
 
-        <Image source={mainPic} style={styles.image} />
+        <Image source={mainPic} resizeMode={Image.resizeMode.contain} style={styles.image} />
 
         <RoundedButton text="Select Image" onPress = {this.selectImage.bind(this)} />
 
@@ -254,7 +233,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   image: {
-    width:400,
+    width:360,
     height:200,
     marginTop: 10,
   },

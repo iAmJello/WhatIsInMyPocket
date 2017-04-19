@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native'
 import { Colors } from '../../Themes'
 
 export default StyleSheet.create({
-  catCard: {
+  imageDone: {
     flexDirection: 'column',
     flexWrap: 'wrap',
     borderRadius: 5,
@@ -12,7 +12,7 @@ export default StyleSheet.create({
     borderColor: 'grey',
     backgroundColor: Colors.success
   },
-  sharedCatCard: {
+  imagePro: {
     flexDirection: 'column',
     flexWrap: 'wrap',
     borderRadius: 5,
@@ -27,18 +27,18 @@ export default StyleSheet.create({
     flex: 80,
     overflow: 'hidden'
   },
-  name: {
+  amount: {
     color: 'white',
     paddingLeft: 10,
     fontSize: 30
   },
-  catPicture: {
+  moneyPicture: {
     marginRight: 10,
     width: 80,
     height: 90,
     flex: 12
   },
-  owner: {
+  id: {
     color: 'white',
     paddingLeft: 10
   },
