@@ -184,9 +184,12 @@ export default class PresentationScreen extends React.Component {
       queries: queries,
       avatarSource: null
     });
+
+    console.log("in the upload")
+
     db.post('/urload.php', data)
     .then(function (response) {
-      console.log(response);
+      console.log("here");
       var _query = {
         image: photo,
         state: response.data.status,

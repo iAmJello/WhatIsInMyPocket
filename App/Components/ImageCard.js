@@ -76,7 +76,7 @@ export default class ImageCard extends React.Component {
               <Text style={styles.owner}>Id: {this.state.item_id}</Text>
             </View>
             {/* pictures do not yet exist so this may be removed */}
-            <Image source={this.state.image} style={styles.catPicture} /> 
+            <Image source={{uri: this.state.image.uri}} style={styles.catPicture} /> 
           </View>
         </View>
       </TouchableOpacity>
