@@ -16,6 +16,13 @@ export default class CardInfo extends React.Component {
   render () {
     var cardStyle = styles.infoPage
     var amountVal = 0
+
+    if (this.props.amount === "-2"){
+      amountVal = "Square not found."
+    } else {
+      amountVal = "Amount: " + this.props.amount
+    }
+
     return (
       <ScrollView style={cardStyle}>
         <View style={styles.centerImage}>
@@ -23,7 +30,7 @@ export default class CardInfo extends React.Component {
         </View>
         <View style={styles.innerContents}>
           <View style={styles.textContents}>
-            <Text style={styles.name}>Amount: {this.props.amount}</Text>
+            <Text style={styles.name}>{amountVal}</Text>
             <Text style={styles.name}>Coins: </Text>
             <Text style={styles.coinType}>Nickels: {this.props.coins.nickel}</Text>
             <Text style={styles.coinType}>Dimes: {this.props.coins.dime}</Text>

@@ -63,6 +63,8 @@ export default class ImageCard extends React.Component {
     var amountVal
     if(this.state.amount === null){
       amountVal = "Processing..."
+    } else if (this.state.amount === "-2"){
+      amountVal = "Square not found."
     } else {
       amountVal = "Amount: " + this.state.amount
     }
